@@ -19,7 +19,8 @@ const UPLOADS = path.join(process.cwd(), 'wp-content', 'uploads');
 
 // Heuristic: identify files that are doctor photos based on filename patterns we set previously
 const PORTRAIT_PATTERNS = [
-  /DSC0\d+/i,          // generic shoots
+  /^DSC[-_0-9]/i,      // DSC0, DSC02763, DSC_303, DSC-Photoroom, DSC2, DSC3, etc.
+  /^DSC\./i,           // DSC.webp
   /Dr-?Ahmed-?Zaki/i,
   /doctor[-_ ]?ahmed/i,
   /img_338[01]/i,
