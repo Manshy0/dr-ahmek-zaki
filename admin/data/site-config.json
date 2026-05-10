@@ -1,0 +1,29 @@
+{
+    "logo": {
+        "src": "wp-content/uploads/2025/05/P-1-1024x201.png",
+        "alt": "Dr. Ahmed Zaki Logo",
+        "width": 800,
+        "height": 157
+    },
+    "topBar": {
+        "enabled": true,
+        "phone": "+971 58 567 0984",
+        "phoneLink": "tel:+971585670984",
+        "email": "info@drahmedzaki.ae",
+        "location": "Dubai, UAE",
+        "workingHours": "Sun - Thu: 9:00 AM - 6:00 PM"
+    },
+    "social": {
+        "whatsapp": "971585670984",
+        "facebook": "",
+        "instagram": "",
+        "twitter": "",
+        "linkedin": "",
+        "youtube": ""
+    },
+    "seo": {
+        "title": "Dr. Ahmed Zaki – Specialist Orthopedic Surgeon UAE",
+        "description": "Expert orthopedic surgeon UAE specializing in shoulder, trauma and sports injuries.",
+        "ogImage": "wp-content/uploads/2025/04/DSC02763-684x1024.jpg"
+    }
+}

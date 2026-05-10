@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//ICONCLY//NFC Doctor Card//EN
+N:Saleh;Dr. Usama;;;
+FN:Dr. Usama Saleh
+ORG:Medcare
+TITLE:Orthopedic\, Sports Injury & Trauma Surgeon
+TEL;TYPE=CELL:+971567853864
+EMAIL;TYPE=INTERNET:dr@usamasaleh.com
+END:VCARD

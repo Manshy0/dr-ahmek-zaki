@@ -1,0 +1,149 @@
+/* Inline editor overlays - injected into edited page */
+
+.ie-editable {
+  position: relative;
+  outline: 1px dashed transparent;
+  outline-offset: 2px;
+  transition: outline-color .15s, background-color .15s;
+  cursor: text;
+}
+.ie-editable.ie-hover {
+  outline-color: rgba(20, 184, 166, 0.6);
+  background-color: rgba(20, 184, 166, 0.05);
+}
+.ie-editable.ie-active {
+  outline: 2px solid #14b8a6 !important;
+  outline-offset: 2px;
+  background-color: rgba(20, 184, 166, 0.08) !important;
+}
+.ie-editable[contenteditable="true"]:focus { outline: 2px solid #14b8a6 !important; }
+
+.ie-editable-img {
+  outline: 2px dashed transparent;
+  outline-offset: 2px;
+  cursor: pointer !important;
+  transition: outline-color .15s;
+}
+.ie-editable-img:hover {
+  outline-color: #14b8a6;
+}
+
+.ie-editable-bg {
+  position: relative;
+}
+.ie-editable-bg:hover::before {
+  content: 'Click to change background';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #14b8a6;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: -apple-system, sans-serif;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+/* Modal */
+.ie-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.ie-modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  overflow: hidden;
+  font-size: 14px;
+  color: #0f172a;
+}
+.ie-modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+.ie-close {
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+  cursor: pointer;
+  color: #64748b;
+  width: 28px;
+  height: 28px;
+}
+.ie-modal-body {
+  padding: 20px;
+  position: relative;
+}
+.ie-modal-body.ie-loading::after {
+  content: 'Uploading...';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+.ie-preview {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  background: #f1f5f9;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.ie-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-direction: column;
+}
+.ie-row + .ie-row { margin-top: 0; }
+.ie-row > button { flex: 1; }
+.ie-row { flex-direction: row; }
+.ie-row:has(.ie-input), .ie-row:has(.ie-label) { flex-direction: column; gap: 6px; }
+.ie-label { font-size: 12px; font-weight: 500; color: #64748b; }
+.ie-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.ie-input:focus { outline: none; border-color: #14b8a6; box-shadow: 0 0 0 3px rgba(20,184,166,0.15); }
+.ie-modal-footer {
+  padding: 14px 20px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid #e2e8f0;
+}
+.ie-btn {
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #0f172a;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+.ie-btn:hover { background: #f1f5f9; }
+.ie-btn-primary { background: #0f766e; color: white; border-color: #0f766e; }
+.ie-btn-primary:hover { background: #115e59; }

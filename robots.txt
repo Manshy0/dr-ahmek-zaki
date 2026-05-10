@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Disallow admin/internal areas
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-json/
+Disallow: /node_modules/
+Disallow: /_new_assets/
+
+Sitemap: https://drahmedzaki.com/sitemap.xml
