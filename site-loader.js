@@ -8,7 +8,13 @@
 
     const API_URL = '/admin/api/site-config.php';
     const CACHE_KEY = 'drazaki_site_config';
-    const CACHE_TTL = 60 * 1000;
+    // Short cache — long enough to give an instant first paint, short enough that a
+    // freshly-uploaded replacement is picked up on the very next refresh.
+    const CACHE_TTL = 5 * 1000;
+
+    // Inject a style that hides any <img> tagged for replacement until the new src is applied.
+    // This prevents the "flash of original image" when the page first renders.
+    injectAntiFlashStyle();
 
     // Use cached config for instant first paint
     let cached = null;
@@ -21,8 +27,8 @@
     } catch (e) {}
     if (cached) applyConfig(cached);
 
-    // Fetch fresh config from server
-    fetch(API_URL, { credentials: 'same-origin' })
+    // Fetch fresh config from server (cache-busted to defeat any proxy/CDN caches)
+    fetch(API_URL + '?t=' + Date.now(), { credentials: 'same-origin', cache: 'no-store' })
         .then(r => r.json())
         .then(data => {
             if (data && data.success) {
@@ -34,7 +40,22 @@
                 applyConfig(data);
             }
         })
-        .catch(err => console.warn('[site-loader]', err));
+        .catch(err => console.warn('[site-loader]', err))
+        .finally(revealReplacedImages);
+
+    function injectAntiFlashStyle() {
+        if (document.getElementById('drazaki-antiflash')) return;
+        const style = document.createElement('style');
+        style.id = 'drazaki-antiflash';
+        style.textContent = 'img[data-drazaki-pending="1"]{visibility:hidden!important;}';
+        (document.head || document.documentElement).appendChild(style);
+    }
+
+    function revealReplacedImages() {
+        document.querySelectorAll('img[data-drazaki-pending="1"]').forEach(function(img) {
+            img.removeAttribute('data-drazaki-pending');
+        });
+    }
 
     function applyConfig(data) {
         const settings = data.settings || {};
@@ -85,7 +106,22 @@
         const v = el.getAttribute(attr);
         if (!v) return;
         const norm = normalizeUrl(v);
-        if (replacements[norm]) el.setAttribute(attr, replacements[norm]);
+        const target = replacements[norm];
+        if (!target) return;
+        // For visible <img src>, preload the replacement and hide the element
+        // until it's ready so the original never flashes on screen.
+        if (attr === 'src' && el.tagName === 'IMG') {
+            if (el.getAttribute(attr) === target) return;
+            el.setAttribute('data-drazaki-pending', '1');
+            const preload = new Image();
+            preload.onload = preload.onerror = function() {
+                el.setAttribute(attr, target);
+                el.removeAttribute('data-drazaki-pending');
+            };
+            preload.src = target;
+        } else {
+            el.setAttribute(attr, target);
+        }
     }
 
     function replaceSrcset(el, attr, replacements) {
